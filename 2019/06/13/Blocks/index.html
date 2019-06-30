@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="标签：Objective-C iOS Blocks [摘要]  Block介绍     Block     声明与定义     查看源码(本质) block截获变量  __block修饰符 block内存管理     __weak __block">
+<meta name="description" content="标签：Objective-C iOS Blocks  Block介绍     Block     声明与定义     查看源码(本质) block截获变量  __block修饰符 block内存管理     __weak __block">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Blocks">
 <meta property="og:url" content="http://yoursite.com/2019/06/13/Blocks/index.html">
 <meta property="og:site_name" content="Feeltouch">
-<meta property="og:description" content="标签：Objective-C iOS Blocks [摘要]  Block介绍     Block     声明与定义     查看源码(本质) block截获变量  __block修饰符 block内存管理     __weak __block">
+<meta property="og:description" content="标签：Objective-C iOS Blocks  Block介绍     Block     声明与定义     查看源码(本质) block截获变量  __block修饰符 block内存管理     __weak __block">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-30T16:06:52.306Z">
+<meta property="og:updated_time" content="2019-06-30T16:39:03.648Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Blocks">
-<meta name="twitter:description" content="标签：Objective-C iOS Blocks [摘要]  Block介绍     Block     声明与定义     查看源码(本质) block截获变量  __block修饰符 block内存管理     __weak __block">
+<meta name="twitter:description" content="标签：Objective-C iOS Blocks  Block介绍     Block     声明与定义     查看源码(本质) block截获变量  __block修饰符 block内存管理     __weak __block">
 
 
 
@@ -300,7 +300,6 @@
 
       
         <p>标签：Objective-C iOS Blocks</p>
-<p>[摘要]</p>
 <blockquote>
 <pre><code>Block介绍
     Block
@@ -315,12 +314,11 @@ block内存管理
 
 <a id="more"></a>
 
-<p>###Block介绍</p>
-<ul>
-<li>Block：类似于标准的C函数，包含可执行代码和变量绑定的对象–将函数及其执行的上下文封装起来的对象<a href="[官方文档地址](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Blocks/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40007502-CH1-SW1)">^appSay</a>。</li>
-</ul>
-<ul>
-<li>声明与定义：<br><code>返回值类型 (^block名)(参数类型) = ^返回值类型(参数类型 参数名) {执行代码;};</code></li>
+<h2 id="Block介绍"><a href="#Block介绍" class="headerlink" title="Block介绍"></a>Block介绍</h2><ul>
+<li><p>Block：类似于标准的C函数，包含可执行代码和变量绑定的对象–将函数及其执行的上下文封装起来的对象 1。</p>
+</li>
+<li><p>声明与定义：<br><code>返回值类型 (^block名)(参数类型) = ^返回值类型(参数类型 参数名) {执行代码;};</code></p>
+</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int multiplier = 7;</span><br><span class="line">int (^myBlock)(int) = ^int(int num) &#123;</span><br><span class="line">    return num * multiplier;</span><br><span class="line">&#125;;</span><br><span class="line">NSLog(@&quot;==%d&quot;, myBlock(3));</span><br><span class="line">//21</span><br></pre></td></tr></table></figure>
 
@@ -337,8 +335,7 @@ block内存管理
 </blockquote>
 <p><strong>CZBlockTest</strong>blockName_block_desc_0 ：block描述信息<br>Block_size：block的大小  </p>
 <p>由此可知一个block为_block_impl_0的结构体对象，其中包含一个impl、描述和入参。impl的isa指向所属类指针，FuncPtr指向函数<strong>CZBlockTest</strong>blockName_block_func_0。</p>
-<p>###block截获变量 </p>
-<blockquote>
+<h2 id="block截获变量"><a href="#block截获变量" class="headerlink" title="block截获变量"></a>block截获变量</h2><blockquote>
 <ul>
 <li>局部变量：基本数据类型、对象类型</li>
 <li>静态局部变量</li>
@@ -358,7 +355,7 @@ block内存管理
 <li>以<strong>指针形式</strong>截获局部静态变量</li>
 <li><strong>不截获</strong>全局变量、静态全局变量</li>
 </ul>
-<p>###__block修饰符<br>block截获变量,但是不能修改它，不然就是“编译错误”。但是可以改变全局变量、静态局部变量、全局静态变量。</p>
+<h2 id="block修饰符"><a href="#block修饰符" class="headerlink" title="__block修饰符"></a>__block修饰符</h2><p>block截获变量,但是不能修改它，不然就是“编译错误”。但是可以改变全局变量、静态局部变量、全局静态变量。</p>
 <ul>
 <li>__block修饰符  </li>
 </ul>
@@ -366,8 +363,7 @@ block内存管理
 <ul>
 <li>对变量赋值<br>需要<strong>block修饰符–局部变量：基本数据类型和对象类型。<br>不需要</strong>block修饰符–全局变量、静态局部变量、全局静态变量。</li>
 </ul>
-<p>###block 内存管理</p>
-<ul>
+<h2 id="block-内存管理"><a href="#block-内存管理" class="headerlink" title="block 内存管理"></a>block 内存管理</h2><ul>
 <li>block类型<br>__NSGlobalBlock __ （ <em>NSConcreteGlobalBlock ）在数据区<br>__NSStackBlock _</em> （ <em>NSConcreteStackBlock ）在堆区<br>__NSMallocBlock _</em> （ _NSConcreteMallocBlock ）在栈区  </li>
 </ul>
 <blockquote>
@@ -420,8 +416,7 @@ block内存管理
 <p>  根据情况使用<strong>weak。在特殊需要的时候和</strong>strong搭配使用。</p>
 </li>
 </ul>
-<p>###参考<a href="[iOS-Block本质](https://www.jianshu.com/p/4e79e9a0dd82)">^a</a> [^b] [^c]</p>
-<p>[^b]: <a href="https://www.jianshu.com/p/00a0747740ba?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation" target="_blank" rel="noopener">iOS Block详解</a><br>[^c]: <a href="https://www.jianshu.com/p/bcd494ba0e22" target="_blank" rel="noopener">iOS中Block的用法，举例，解析与底层原理（这可能是最详细的Block解析）</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>1: <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Blocks/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40007502-CH1-SW1" target="_blank" rel="noopener">官方文档地址</a><br>2: <a href="https://www.jianshu.com/p/4e79e9a0dd82" target="_blank" rel="noopener">iOS-Block本质</a><br>3: <a href="https://www.jianshu.com/p/00a0747740ba?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation" target="_blank" rel="noopener">iOS Block详解</a><br>4: <a href="https://www.jianshu.com/p/bcd494ba0e22" target="_blank" rel="noopener">iOS中Block的用法，举例，解析与底层原理（这可能是最详细的Block解析）</a></p>
 
       
     </div>
@@ -490,8 +485,17 @@ block内存管理
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -533,6 +537,22 @@ block内存管理
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Block介绍"><span class="nav-number">1.</span> <span class="nav-text">Block介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#block截获变量"><span class="nav-number">2.</span> <span class="nav-text">block截获变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#block修饰符"><span class="nav-number">3.</span> <span class="nav-text">__block修饰符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#block-内存管理"><span class="nav-number">4.</span> <span class="nav-text">block 内存管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
