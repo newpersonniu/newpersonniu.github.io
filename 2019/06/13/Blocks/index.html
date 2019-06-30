@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="标签：Objective-C iOS Blocks [摘要]  Block介绍     Block     声明与定义     查看源码(本质) block截获变量  __block修饰符 block内存管理     __weak __block">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Blocks">
+<meta property="og:url" content="http://yoursite.com/2019/06/13/Blocks/index.html">
+<meta property="og:site_name" content="Feeltouch">
+<meta property="og:description" content="标签：Objective-C iOS Blocks [摘要]  Block介绍     Block     声明与定义     查看源码(本质) block截获变量  __block修饰符 block内存管理     __weak __block">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-30T16:06:52.306Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Blocks">
+<meta name="twitter:description" content="标签：Objective-C iOS Blocks [摘要]  Block介绍     Block     声明与定义     查看源码(本质) block截获变量  __block修饰符 block内存管理     __weak __block">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/13/Blocks/">
+
+
+
+
+
+  <title>Blocks | Feeltouch</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Feeltouch</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/13/Blocks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Can">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feeltouch">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Blocks</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-13T19:11:47+08:00">
+                2019-06-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>标签：Objective-C iOS Blocks</p>
+<p>[摘要]</p>
+<blockquote>
+<pre><code>Block介绍
+    Block
+    声明与定义
+    查看源码(本质)
+block截获变量 
+__block修饰符
+block内存管理
+    __weak __block</code></pre></blockquote>
+<!--下一章节就讲copy,详细理解copy的核心-->
+
+
+<a id="more"></a>
+
+<p>###Block介绍</p>
+<ul>
+<li>Block：类似于标准的C函数，包含可执行代码和变量绑定的对象–将函数及其执行的上下文封装起来的对象<a href="[官方文档地址](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Blocks/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40007502-CH1-SW1)">^appSay</a>。</li>
+</ul>
+<ul>
+<li>声明与定义：<br><code>返回值类型 (^block名)(参数类型) = ^返回值类型(参数类型 参数名) {执行代码;};</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int multiplier = 7;</span><br><span class="line">int (^myBlock)(int) = ^int(int num) &#123;</span><br><span class="line">    return num * multiplier;</span><br><span class="line">&#125;;</span><br><span class="line">NSLog(@&quot;==%d&quot;, myBlock(3));</span><br><span class="line">//21</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看源码</li>
+</ul>
+<p>使用clang -rewrite-objc file.m 查看源码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">struct __block_impl &#123;</span><br><span class="line">  void *isa;</span><br><span class="line">  int Flags;</span><br><span class="line">  int Reserved;</span><br><span class="line">  void *FuncPtr;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct __CZBlockTest__blockName_block_impl_0 &#123;</span><br><span class="line">  struct __block_impl impl;</span><br><span class="line">  struct __CZBlockTest__blockName_block_desc_0* Desc;</span><br><span class="line">  int multiplier;</span><br><span class="line">  // 构造函数（类似于OC的init方法），返回结构体对象</span><br><span class="line">  __CZBlockTest__blockName_block_impl_0(void *fp, struct __CZBlockTest__blockName_block_desc_0 *desc, int _multiplier, int flags=0) : multiplier(_multiplier) &#123;</span><br><span class="line">    impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">    impl.Flags = flags;</span><br><span class="line">    impl.FuncPtr = fp;</span><br><span class="line">    Desc = desc;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 封装了block执行逻辑的函数</span><br><span class="line">static int __CZBlockTest__blockName_block_func_0(struct __CZBlockTest__blockName_block_impl_0 *__cself, int num) &#123;</span><br><span class="line">  int multiplier = __cself-&gt;multiplier; // bound by copy</span><br><span class="line"></span><br><span class="line">        return num * multiplier;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static struct __CZBlockTest__blockName_block_desc_0 &#123;</span><br><span class="line">  size_t reserved;</span><br><span class="line">  size_t Block_size;</span><br><span class="line">&#125; __CZBlockTest__blockName_block_desc_0_DATA = &#123; 0, sizeof(struct __CZBlockTest__blockName_block_impl_0)&#125;;</span><br><span class="line"></span><br><span class="line">static void _I_CZBlockTest_blockName(CZBlockTest * self, SEL _cmd) &#123;</span><br><span class="line"></span><br><span class="line">    int multiplier = 7;</span><br><span class="line">    // 定义block变量</span><br><span class="line">    int (*myBlock)(int) = ((int (*)(int))&amp;__CZBlockTest__blockName_block_impl_0((void *)__CZBlockTest__blockName_block_func_0, &amp;__CZBlockTest__blockName_block_desc_0_DATA, multiplier));</span><br><span class="line">    multiplier = 9;</span><br><span class="line">    ((int (*)(__block_impl *, int))((__block_impl *)myBlock)-&gt;FuncPtr)((__block_impl *)myBlock, 3);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>isa：指向所属类的指针，也就是block的类型<br>Flags：标志变量，在实现block的内部操作时会用到<br>Reserved：保留变量<br>FuncPtr：block执行时调用的函数指针   </p>
+</blockquote>
+<blockquote>
+</blockquote>
+<p><strong>CZBlockTest</strong>blockName_block_desc_0 ：block描述信息<br>Block_size：block的大小  </p>
+<p>由此可知一个block为_block_impl_0的结构体对象，其中包含一个impl、描述和入参。impl的isa指向所属类指针，FuncPtr指向函数<strong>CZBlockTest</strong>blockName_block_func_0。</p>
+<p>###block截获变量 </p>
+<blockquote>
+<ul>
+<li>局部变量：基本数据类型、对象类型</li>
+<li>静态局部变量</li>
+<li>全局变量</li>
+<li>静态全局变量</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 全局变量</span><br><span class="line">int global_var = 4;</span><br><span class="line"></span><br><span class="line">// 静态全局变量</span><br><span class="line">static int static_global_var = 5;</span><br><span class="line"></span><br><span class="line">- (void)method</span><br><span class="line">&#123;</span><br><span class="line">    // 基本数据类型的局部变量</span><br><span class="line">    int var = 1;</span><br><span class="line">    </span><br><span class="line">    // 局部静态变量</span><br><span class="line">    static int static_var = 2;</span><br><span class="line">    </span><br><span class="line">    // 对象类型的局部变量</span><br><span class="line">    __unsafe_unretained id unsafe_obj = nil;</span><br><span class="line">    __strong id strong_obj = nil;</span><br><span class="line">    </span><br><span class="line">    void (^myblock)(void) = ^&#123;</span><br><span class="line">        NSLog(@&quot;1:%d&quot;,global_var);</span><br><span class="line">        NSLog(@&quot;2:%d&quot;,static_global_var);</span><br><span class="line">        NSLog(@&quot;3:%d&quot;,var);</span><br><span class="line">        NSLog(@&quot;4:%d&quot;,static_var);</span><br><span class="line">        NSLog(@&quot;5:%@&quot;,unsafe_obj);</span><br><span class="line">        NSLog(@&quot;6:%@&quot;,strong_obj);</span><br><span class="line">    &#125;;</span><br><span class="line">    myblock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>终端执行<br><code>clang -rewrite-objc -fobjc-arc file.m</code><br>源码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// @implementation CZBlockTest</span><br><span class="line"></span><br><span class="line">int global_var = 4;</span><br><span class="line"></span><br><span class="line">static int static_global_var = 5;</span><br><span class="line"></span><br><span class="line">//1.编译后的方法</span><br><span class="line">static void _I_CZBlockTest_method(CZBlockTest * self, SEL _cmd) &#123;</span><br><span class="line"></span><br><span class="line">    int var = 1;</span><br><span class="line"></span><br><span class="line">    static int static_var = 2;</span><br><span class="line"></span><br><span class="line">    __attribute__((objc_ownership(none))) id unsafe_obj = __null;</span><br><span class="line">    __attribute__((objc_ownership(strong))) id strong_obj = __null;</span><br><span class="line"></span><br><span class="line">    void (*myblock)(void) = ((void (*)())&amp;__CZBlockTest__method_block_impl_0((void *)__CZBlockTest__method_block_func_0, &amp;__CZBlockTest__method_block_desc_0_DATA, var, &amp;static_var, unsafe_obj, strong_obj, 570425344));</span><br><span class="line">    ((void (*)(__block_impl *))((__block_impl *)myblock)-&gt;FuncPtr)((__block_impl *)myblock);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//2.block本质</span><br><span class="line">struct __CZBlockTest__method_block_impl_0 &#123;</span><br><span class="line">  struct __block_impl impl;</span><br><span class="line">  struct __CZBlockTest__method_block_desc_0* Desc;</span><br><span class="line">  </span><br><span class="line">  // 没有截取 全局变量 global_var，静态全局变量 static_global_var</span><br><span class="line">  // block截取了函数上下文的变量 var（截取值）, *static_var（截取地址）, unsafe_obj（截取对象包括类型）, strong_obj（截取对象包括类型）</span><br><span class="line">  int var;</span><br><span class="line">  int *static_var;</span><br><span class="line">  __unsafe_unretained id unsafe_obj;</span><br><span class="line">  __strong id strong_obj;</span><br><span class="line">  </span><br><span class="line">  __CZBlockTest__method_block_impl_0(void *fp, struct __CZBlockTest__method_block_desc_0 *desc, int _var, int *_static_var, __unsafe_unretained id _unsafe_obj, __strong id _strong_obj, int flags=0) : var(_var), static_var(_static_var), unsafe_obj(_unsafe_obj), strong_obj(_strong_obj) &#123;</span><br><span class="line">    impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">    impl.Flags = flags;</span><br><span class="line">    impl.FuncPtr = fp;</span><br><span class="line">    Desc = desc;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 3.MYBlock 函数的内部实现</span><br><span class="line">static void __CZBlockTest__method_block_func_0(struct __CZBlockTest__method_block_impl_0 *__cself) &#123;</span><br><span class="line">	int var = __cself-&gt;var; // bound by copy</span><br><span class="line">	int *static_var = __cself-&gt;static_var; // bound by copy</span><br><span class="line">	__unsafe_unretained id unsafe_obj = __cself-&gt;unsafe_obj; // bound by copy</span><br><span class="line">	__strong id strong_obj = __cself-&gt;strong_obj; // bound by copy</span><br><span class="line"></span><br><span class="line">	// 全局变量 global_var，静态全局变量 static_global_var</span><br><span class="line">	NSLog((NSString *)&amp;__NSConstantStringImpl__var_folders_08_nkbgm6nj4g13088mjymtp3d40000gn_T_CZBlockTest_1250da_mi_0,global_var);</span><br><span class="line">	NSLog((NSString *)&amp;__NSConstantStringImpl__var_folders_08_nkbgm6nj4g13088mjymtp3d40000gn_T_CZBlockTest_1250da_mi_1,static_global_var);</span><br><span class="line"></span><br><span class="line">	// var（截取值）, *static_var（截取地址）</span><br><span class="line">	NSLog((NSString *)&amp;__NSConstantStringImpl__var_folders_08_nkbgm6nj4g13088mjymtp3d40000gn_T_CZBlockTest_1250da_mi_2,var);</span><br><span class="line">	NSLog((NSString *)&amp;__NSConstantStringImpl__var_folders_08_nkbgm6nj4g13088mjymtp3d40000gn_T_CZBlockTest_1250da_mi_3,(*static_var));</span><br><span class="line"></span><br><span class="line">	// unsafe_obj（截取对象包括类型）, strong_obj（截取对象包括类型）</span><br><span class="line">	NSLog((NSString *)&amp;__NSConstantStringImpl__var_folders_08_nkbgm6nj4g13088mjymtp3d40000gn_T_CZBlockTest_1250da_mi_4,unsafe_obj);</span><br><span class="line">	NSLog((NSString *)&amp;__NSConstantStringImpl__var_folders_08_nkbgm6nj4g13088mjymtp3d40000gn_T_CZBlockTest_1250da_mi_5,strong_obj);</span><br><span class="line">        </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void __CZBlockTest__method_block_copy_0(struct __CZBlockTest__method_block_impl_0*dst, struct __CZBlockTest__method_block_impl_0*src)</span><br><span class="line">&#123;_Block_object_assign((void*)&amp;dst-&gt;unsafe_obj, (void*)src-&gt;unsafe_obj, 3/*BLOCK_FIELD_IS_OBJECT*/);_Block_object_assign((void*)&amp;dst-&gt;strong_obj, (void*)src-&gt;strong_obj, 3/*BLOCK_FIELD_IS_OBJECT*/);&#125;</span><br><span class="line"></span><br><span class="line">static void __CZBlockTest__method_block_dispose_0(struct __CZBlockTest__method_block_impl_0*src) &#123;_Block_object_dispose((void*)src-&gt;unsafe_obj, 3/*BLOCK_FIELD_IS_OBJECT*/);_Block_object_dispose((void*)src-&gt;strong_obj, 3/*BLOCK_FIELD_IS_OBJECT*/);&#125;</span><br><span class="line"></span><br><span class="line">//block描述</span><br><span class="line">static struct __CZBlockTest__method_block_desc_0 &#123;</span><br><span class="line">  size_t reserved;</span><br><span class="line">  size_t Block_size;</span><br><span class="line">  void (*copy)(struct __CZBlockTest__method_block_impl_0*, struct __CZBlockTest__method_block_impl_0*);</span><br><span class="line">  void (*dispose)(struct __CZBlockTest__method_block_impl_0*);</span><br><span class="line">&#125; __CZBlockTest__method_block_desc_0_DATA = &#123; 0, sizeof(struct __CZBlockTest__method_block_impl_0), __CZBlockTest__method_block_copy_0, __CZBlockTest__method_block_dispose_0&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// @end</span><br></pre></td></tr></table></figure>
+
+<p>由此:  </p>
+<ul>
+<li>对于<strong>基本数据</strong>类型的<strong>局部变量</strong>截获其值</li>
+<li>对于<strong>对象</strong>类型的局部变量<strong>连同所有权修饰符</strong>一起截获</li>
+<li>以<strong>指针形式</strong>截获局部静态变量</li>
+<li><strong>不截获</strong>全局变量、静态全局变量</li>
+</ul>
+<p>###__block修饰符<br>block截获变量,但是不能修改它，不然就是“编译错误”。但是可以改变全局变量、静态局部变量、全局静态变量。</p>
+<ul>
+<li>__block修饰符  </li>
+</ul>
+<p><strong>一般情况下</strong>，对被截获变量进行<strong>赋值</strong>操作需添加<strong>__block修饰符</strong><br>注意：赋值 <strong>不等于</strong> 使用</p>
+<ul>
+<li>对变量赋值<br>需要<strong>block修饰符–局部变量：基本数据类型和对象类型。<br>不需要</strong>block修饰符–全局变量、静态局部变量、全局静态变量。</li>
+</ul>
+<p>###block 内存管理</p>
+<ul>
+<li>block类型<br>__NSGlobalBlock __ （ <em>NSConcreteGlobalBlock ）在数据区<br>__NSStackBlock _</em> （ <em>NSConcreteStackBlock ）在堆区<br>__NSMallocBlock _</em> （ _NSConcreteMallocBlock ）在栈区  </li>
+</ul>
+<blockquote>
+<p>堆：动态分配内存，需要程序员自己申请，程序员自己管理<br>栈：自动分配内存，自动销毁，先入后出，栈上的内容存在自动销毁的情况</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int age = 1;</span><br><span class="line">void (^block1)(void) = ^&#123;</span><br><span class="line">    NSLog(@&quot;block1&quot;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">void (^block2)(void) = ^&#123;</span><br><span class="line">    NSLog(@&quot;block2:%d&quot;,age);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;%@/%@/%@&quot;,[block1 class],[block2 class],[^&#123;</span><br><span class="line">    NSLog(@&quot;block3:%d&quot;,age);</span><br><span class="line">&#125; class]);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>输出结果：<br><strong>NSGlobalBlock __/</strong>NSMallocBlock <strong>/</strong>NSStackBlock __</p>
+</blockquote>
+<ul>
+<li><p>判断block是哪种类型<br>没有访问变量的block是<strong>NSGlobalBlock __ ，放在数据段<br>访问了变量的block是</strong>NSStackBlock __<br>[<strong>NSStackBlock __ copy]操作就变成了</strong>NSMallocBlock __     </p>
+</li>
+<li><p>copy</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>源</th>
+<th>copy结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>__NSGlobalBlock __</td>
+<td>数据区</td>
+<td>什么也不做</td>
+</tr>
+<tr>
+<td>__NSStackBlock __</td>
+<td>栈</td>
+<td>堆</td>
+</tr>
+<tr>
+<td>__NSMallocBlock __</td>
+<td>堆</td>
+<td>引用计数增加</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>在ARC环境下，编译器会根据情况自动将栈上的block复制到堆上的几种情况</p>
+<blockquote>
+</blockquote>
+</li>
+</ul>
+<p>1.block作为函数返回值时<br>2.将block赋值给__strong指针时<br>3.block作为Cocoa API中方法名含有usingBlock的方法参数时<br>4.block作为GCD API的方法参数时  </p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MRC下block属性的建议写法  </span><br><span class="line">@property (copy, nonatomic) void (^block)(void);  </span><br><span class="line">ARC下block属性的建议写法  </span><br><span class="line">@property (strong, nonatomic) void (^block)(void);  </span><br><span class="line">@property (copy, nonatomic) void (^block)(void);</span><br></pre></td></tr></table></figure></code></pre><ul>
+<li><p>block的循环引用<br>在对象间接或直接持有block，并且block持有对象，可以使用__weak来打断循环引用。</p>
+<p>  <code>__weak Classname *weakSelf = self;</code></p>
+<p>  但是此处会有一个隐患，你不知道 self 什么时候会被释放，为了保证在block内不会被释放，我们可以在block里添加__strong。</p>
+<p>  根据情况使用<strong>weak。在特殊需要的时候和</strong>strong搭配使用。</p>
+</li>
+</ul>
+<p>###参考<a href="[iOS-Block本质](https://www.jianshu.com/p/4e79e9a0dd82)">^a</a> [^b] [^c]</p>
+<p>[^b]: <a href="https://www.jianshu.com/p/00a0747740ba?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation" target="_blank" rel="noopener">iOS Block详解</a><br>[^c]: <a href="https://www.jianshu.com/p/bcd494ba0e22" target="_blank" rel="noopener">iOS中Block的用法，举例，解析与底层原理（这可能是最详细的Block解析）</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Zhou Can</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhou Can</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
